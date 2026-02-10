@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Guddu!</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Playfair+Display:ital,wght@0,700;1,700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --secondary: #ff85a1;
+            --accent: #ffb3c1;
+            --gold: #d4af37;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #fffafa;
+            color: #333;
+            overflow: hidden; /* Prevent vertical scroll during page transitions */
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .font-cursive { font-family: 'Dancing Script', cursive; }
+        .font-serif { font-family: 'Playfair Display', serif; }
+
+        /* Animated Background Gradient */
+        .bg-mesh {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -2;
+            background: linear-gradient(45deg, #fff0f3, #fdf2f8, #fff5f5);
+            background-size: 400% 400%;
+            animation: mesh 15s ease infinite;
+        }
+
+        @keyframes mesh {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Page Container & Transitions */
+        .page-container {
+            position: relative;
+            height: 100vh;
+            width: 100vw;
+            perspective: 1000px;
+        }
+
+        .page {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(50px) scale(0.95);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .page.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(0) scale(1);
+        }
+
+        .page.exit {
+            opacity: 0;
+            transform: translateX(-50px) scale(0.95);
+        }
+
+        /* Glassmorphism */
+        .glass {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            box-shadow: 0 8px 32px 0 rgba(255, 77, 109, 0.1);
+        }
+
+        /* Floating Assets */
+        .float-item {
+            position: fixed;
+            pointer-events: none;
+            z-index: -1;
+            animation: float-up var(--d) linear infinite;
+        }
+
+        @keyframes float-up {
+            0% { transform: translateY(110vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+
+        /* Reason Card Animation */
+        .reason-card:hover {
+            transform: translateY(-5px) rotate(1deg);
+            background: white;
+        }
+
+        /* Confetti Effect */
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background-color: var(--primary);
+            z-index: 1000;
+        }
+
+        /* Custom UI Buttons */
+        .nav-btn {
+            background: var(--primary);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 999px;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px rgba(255, 77, 109, 0.4);
+        }
+
+        .nav-btn-secondary {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--accent);
+        }
+
+        /* Navigation Controls */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 100;
+        }
+
+        /* Mobile Adjustments */
+        @media (max-width: 640px) {
+            .page { justify-content: flex-start; padding-top: 60px; padding-bottom: 100px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-mesh"></div>
+    <div id="floating-assets"></div>
+
+    <div class="page-container">
+        <!-- Page 1: Hero -->
+        <section class="page active" id="page-1">
+            <div class="text-center max-w-2xl px-4">
+                <h2 class="text-lg md:text-xl text-pink-400 font-semibold tracking-widest uppercase mb-4">Celebration of my muchki</h2>
+                <h1 class="text-5xl md:text-8xl font-cursive text-pink-600 mb-6 drop-shadow-md">
+                    Happy Birthday,<br>
+                    <span class="text-pink-500">Guddu!</span>
+                </h1>
+                <p class="text-lg md:text-xl text-gray-500 italic font-serif mb-12">
+                    "In a world full of trends, you remain my favorite classic."
+                </p>
+                <button onclick="nextPage()" class="nav-btn text-lg px-12 py-5">
+                    Start the Journey ❤️
+                </button>
+            </div>
+        </section>
+
+        <!-- Page 2: Reasons -->
+        <section class="page" id="page-2">
+            <div class="max-w-6xl w-full text-center">
+                <h2 class="text-4xl md:text-5xl font-cursive text-pink-600 mb-4">Why You're My Everything</h2>
+                <p class="text-gray-400 mb-12">A small list of big reasons...</p>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4">
+                    <div class="reason-card glass p-8 rounded-3xl transition-all duration-300">
+                        <div class="text-4xl mb-4">✨</div>
+                        <h3 class="text-xl font-bold text-pink-500 mb-2">That Smile</h3>
+                        <p class="text-sm text-gray-600">The way your face lights up can turn my darkest days into pure sunshine. Never stop smiling!</p>
+                    </div>
+                    <div class="reason-card glass p-8 rounded-3xl transition-all duration-300">
+                        <div class="text-4xl mb-4">🌸</div>
+                        <h3 class="text-xl font-bold text-pink-500 mb-2">Pure Kindness</h3>
+                        <p class="text-sm text-gray-600">Your heart is made of gold. The way you care for everyone makes me fall for you daily.</p>
+                    </div>
+                    <div class="reason-card glass p-8 rounded-3xl transition-all duration-300">
+                        <div class="text-4xl mb-4">🎈</div>
+                        <h3 class="text-xl font-bold text-pink-500 mb-2">Your Silly Side</h3>
+                        <p class="text-sm text-gray-600">From weird jokes to funny faces, you make me laugh until my stomach hurts.</p>
+                    </div>
+                    <div class="reason-card glass p-8 rounded-3xl transition-all duration-300">
+                        <div class="text-4xl mb-4">💍</div>
+                        <h3 class="text-xl font-bold text-pink-500 mb-2">My Home</h3>
+                        <p class="text-sm text-gray-600">With you, I don't just feel loved; I feel at home. You are my safe space.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 3: Timeline -->
+        <section class="page" id="page-3">
+            <div class="max-w-2xl w-full px-6">
+                <h2 class="text-4xl font-cursive text-center text-pink-600 mb-12">Our Journey Together</h2>
+                
+                <div class="relative border-l-2 border-pink-200 ml-4">
+                    <div class="mb-12 ml-8 relative">
+                        <span class="absolute -left-12 top-0 bg-pink-500 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center text-white text-xs">1</span>
+                        <h3 class="text-xl font-bold text-pink-500">The First Hello</h3>
+                        <p class="text-gray-600 mt-2">Where it all began. Who knew that one conversation would change my entire life?</p>
+                    </div>
+                    <div class="mb-12 ml-8 relative">
+                        <span class="absolute -left-12 top-0 bg-pink-400 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center text-white text-xs">2</span>
+                        <h3 class="text-xl font-bold text-pink-500">Countless Memories</h3>
+                        <p class="text-gray-600 mt-2">Late night talks, sharing dreams, and building a world that belongs only to us.</p>
+                    </div>
+                    <div class="mb-4 ml-8 relative">
+                        <span class="absolute -left-12 top-0 bg-pink-300 w-8 h-8 rounded-full border-4 border-white flex items-center justify-center text-white text-xs">3</span>
+                        <h3 class="text-xl font-bold text-pink-500">Today: Your Day</h3>
+                        <p class="text-gray-600 mt-2">The world became a much better place on this day. Let's celebrate you!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 4: Gallery -->
+        <section class="page" id="page-4">
+            <div class="max-w-4xl w-full text-center px-4">
+                <h2 class="text-4xl md:text-5xl font-cursive text-pink-600 mb-12">Kuch Suhawne Pal!</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <!-- Placeholder Images: In your local version replace with your image paths -->
+                    <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-lg group glass">
+                        <img src="image1.jpg" onerror="this.src='https://images.unsplash.com/photo-1530103043960-ef38714abb15?auto=format&fit=crop&q=80&w=400'" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Guddu">
+                    </div>
+                    <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-lg group glass">
+                        <img src="image2.jpeg" onerror="this.src='https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&q=80&w=400'" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Guddu">
+                    </div>
+                    <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-lg group glass md:mt-8">
+                        <video src="image3.mp4" class="w-full h-full object-cover" autoplay muted loop playsinline></video>
+                    </div>
+                    <div class="aspect-[3/4] rounded-2xl overflow-hidden shadow-lg group glass md:mt-8">
+                        <img src="image4.jpg" onerror="this.src='https://images.unsplash.com/photo-1464347601390-25e2842a37f7?auto=format&fit=crop&q=80&w=400'" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" alt="Guddu">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Page 5: Message -->
+        <section class="page" id="page-5">
+            <div class="max-w-3xl mx-auto glass rounded-[3rem] p-10 md:p-16 text-center relative">
+                <div class="mb-6 inline-block">
+                    <div class="animate-pulse bg-pink-100 p-4 rounded-full">
+                        <svg class="w-10 h-10 text-pink-500" fill="currentColor" viewBox="0 0 20 20"><path d="M3.172 5.172a4 4 0 015.657 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/></svg>
+                    </div>
+                </div>
+                <h2 class="text-3xl md:text-4xl font-cursive text-pink-600 mb-6">Dearest Meri Guddu,</h2>
+                <div class="space-y-4 text-gray-700 text-base md:text-lg leading-relaxed font-serif italic">
+                    <p>On this beautiful day, I want you to know how much you truly mean to me. If I could give you one thing, it would be the ability to see yourself through my eyes.</p>
+                    <p>Only then would you realize how truly special, beautiful, and important you are. You are my best friend, my soulmate, and my biggest blessing.</p>
+                    <p>I promise to stand by you, to laugh with you, and to love you more with every passing second.</p>
+                    <p class="font-bold text-pink-500 not-italic mt-8 text-xl md:text-2xl">
+                        Happy Birthday Meri Guddu! 🎂💖
+                    </p>
+                </div>
+                
+                <button onclick="triggerFinalSurprise()" class="mt-8 nav-btn">
+                    🎁 Open Final Surprise
+                </button>
+            </div>
+        </section>
+    </div>
+
+    <!-- Navigation Controls -->
+    <div class="controls" id="navigation-controls">
+        <button onclick="prevPage()" id="prev-btn" class="nav-btn nav-btn-secondary opacity-0 pointer-events-none">← Back</button>
+        <button onclick="nextPage()" id="next-btn" class="nav-btn">Next →</button>
+    </div>
+
+    <!-- Surprise Modal -->
+    <div id="surprise-modal" class="fixed inset-0 z-[2000] hidden bg-white/95 flex items-center justify-center p-6 text-center">
+        <div class="max-w-md">
+            <h3 class="text-6xl mb-6 animate-bounce">🎂✨🌸</h3>
+            <h4 class="text-4xl font-cursive text-pink-600 mb-4">A Universe of Love!</h4>
+            <p class="text-gray-600 mb-8 text-lg">You are the sparkle in my eye and the rhythm in my heart. Today is all about you, my love!</p>
+            <button onclick="closeSurprise()" class="nav-btn">Continue the Day</button>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        const totalPages = 5;
+
+        // Page Navigation Logic
+        function updatePages() {
+            const pages = document.querySelectorAll('.page');
+            const prevBtn = document.getElementById('prev-btn');
+            const nextBtn = document.getElementById('next-btn');
+            const navControls = document.getElementById('navigation-controls');
+
+            pages.forEach((page, index) => {
+                const pIndex = index + 1;
+                page.classList.remove('active', 'exit');
+                
+                if (pIndex === currentPage) {
+                    page.classList.add('active');
+                } else if (pIndex < currentPage) {
+                    page.classList.add('exit');
+                }
+            });
+
+            // Handle Nav Button Visibility
+            if (currentPage === 1) {
+                prevBtn.classList.add('opacity-0', 'pointer-events-none');
+                navControls.classList.add('hidden'); // Hide controls on landing page
+            } else {
+                prevBtn.classList.remove('opacity-0', 'pointer-events-none');
+                navControls.classList.remove('hidden');
+            }
+
+            if (currentPage === totalPages) {
+                nextBtn.classList.add('opacity-0', 'pointer-events-none');
+            } else {
+                nextBtn.classList.remove('opacity-0', 'pointer-events-none');
+            }
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages) {
+                currentPage++;
+                updatePages();
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                updatePages();
+            }
+        }
+
+        // Floating Assets
+        const container = document.getElementById('floating-assets');
+        const items = ['❤', '🌸', '✨', '🎈', '💕', '🦋', '🍬'];
+
+        function createFloat() {
+            const el = document.createElement('div');
+            el.className = 'float-item';
+            el.innerText = items[Math.floor(Math.random() * items.length)];
+            
+            const startX = Math.random() * 100;
+            const size = Math.random() * (35 - 15) + 15;
+            const duration = Math.random() * (12 - 6) + 6;
+
+            el.style.left = startX + 'vw';
+            el.style.fontSize = size + 'px';
+            el.style.setProperty('--d', duration + 's');
+
+            container.appendChild(el);
+            setTimeout(() => el.remove(), duration * 1000);
+        }
+
+        setInterval(createFloat, 500);
+
+        // Confetti Function
+        function spawnConfetti() {
+            for(let i=0; i<80; i++) {
+                setTimeout(() => {
+                    const c = document.createElement('div');
+                    c.className = 'confetti';
+                    c.style.left = Math.random() * 100 + 'vw';
+                    c.style.top = '-10px';
+                    c.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 70%)`;
+                    c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+                    c.style.width = Math.random() * 10 + 5 + 'px';
+                    c.style.height = c.style.width;
+                    
+                    document.body.appendChild(c);
+                    
+                    const animation = c.animate([
+                        { transform: `translate3d(0, 0, 0) rotate(0deg)`, opacity: 1 },
+                        { transform: `translate3d(${(Math.random()-0.5)*300}px, 105vh, 0) rotate(${Math.random()*720}deg)`, opacity: 0 }
+                    ], {
+                        duration: Math.random() * 2500 + 2000,
+                        easing: 'cubic-bezier(0, .5, .5, 1)'
+                    });
+                    
+                    animation.onfinish = () => c.remove();
+                }, i * 15);
+            }
+        }
+
+        function triggerFinalSurprise() {
+            spawnConfetti();
+            setTimeout(() => {
+                const modal = document.getElementById('surprise-modal');
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }, 1000);
+        }
+
+        function closeSurprise() {
+            document.getElementById('surprise-modal').classList.add('hidden');
+            spawnConfetti(); // One more burst for fun
+        }
+
+        // Initialize UI
+        window.onload = () => {
+            updatePages();
+        }
+    </script>
+</body>
+  </html>
